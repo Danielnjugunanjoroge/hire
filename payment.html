@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HireHub | Payment</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 30px;
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #333;
+      font-weight: 500;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .hidden {
+      display: none;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Complete Payment</h2>
+    <label for="email">Enter your email:</label>
+    <input type="email" id="email" placeholder="example@gmail.com" required />
+    <button id="verifyBtn">Verify Email</button>
+    <p id="emailStatus" class="error hidden">Invalid email address!</p>
+
+    <div id="paymentSection" class="hidden">
+      <label for="method">Select Payment Method:</label>
+      <select id="method">
+        <option value="">-- Select Method --</option>
+        <option value="M-PESA">M-PESA</option>
+        <option value="Bank">Bank</option>
+      </select>
+
+      <div id="numberSection" class="hidden">
+        <label id="numberLabel" for="number">Enter Number:</label>
+        <input type="text" id="number" placeholder="Enter payment number" />
+
+        <button id="payBtn">Pay KSh 100</button>
+      </div>
+    </div>
+
+    <p id="statusMessage" class="success hidden"></p>
+  </div>
+
+  <script>
+    const verifyBtn = document.getElementById("verifyBtn");
+    const emailInput = document.getElementById("email");
+    const emailStatus = document.getElementById("emailStatus");
+    const paymentSection = document.getElementById("paymentSection");
+    const methodSelect = document.getElementById("method");
+    const numberSection = document.getElementById("numberSection");
+    const numberLabel = document.getElementById("numberLabel");
+    const payBtn = document.getElementById("payBtn");
+    const statusMessage = document.getElementById("statusMessage");
+
+    // Verify email
+    verifyBtn.addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (valid) {
+        emailStatus.classList.add("hidden");
+        paymentSection.classList.remove("hidden");
+        alert("✅ Email verified successfully! Proceed with payment.");
+      } else {
+        emailStatus.classList.remove("hidden");
+        emailStatus.textContent = "❌ Invalid email address!";
+      }
+    });
+
+    // Show number input when method selected
+    methodSelect.addEventListener("change", () => {
+      if (methodSelect.value) {
+        numberSection.classList.remove("hidden");
+        numberLabel.textContent =
+          methodSelect.value === "M-PESA"
+            ? "Enter M-PESA Number:"
+            : "Enter Bank Account Number:";
+      } else {
+        numberSection.classList.add("hidden");
+      }
+    });
+
+    // Handle payment simulation
+    payBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const method = methodSelect.value;
+      const number = document.getElementById("number").value.trim();
+
+      if (!method || !number) {
+        alert("⚠️ Please complete all fields before proceeding.");
+        return;
+      }
+
+      alert(`📱 A message has been sent to your phone (${number}) to enter PIN.`);
+
+      // Simulate payment delay
+      setTimeout(async () => {
+        statusMessage.textContent = "✅ Payment successful! Sending receipt...";
+        statusMessage.classList.remove("hidden");
+
+        // Send data to Flask backend for email receipt
+        const paymentData = {
+          customer_email: email,
+          customer_name: "HireHub User",
+          amount: 100,
+          payment_method: method,
+          professional_name: "Uploaded CV",
+          profession: "Various"
+        };
+
+        try {
+          const response = await fetch("http://127.0.0.1:5000/send_receipt", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(paymentData)
+          });
+
+          if (response.ok) {
+            statusMessage.textContent = "✅ Payment successful! Receipt sent to your email.";
+          } else {
+            statusMessage.textContent = "⚠️ Payment done, but failed to send receipt.";
+          }
+        } catch (err) {
+          console.error("Error:", err);
+          statusMessage.textContent = "❌ Connection error sending receipt.";
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

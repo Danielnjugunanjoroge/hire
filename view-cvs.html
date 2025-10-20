@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HireHub - View Posted CVs</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #004aad;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #004aad;
+    }
+    .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 70%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .cv-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .cv-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .cv-info {
+      flex-grow: 1;
+    }
+    .cv-info h3 {
+      margin: 0;
+      color: #004aad;
+    }
+    .cv-info p {
+      margin: 4px 0;
+      color: #333;
+    }
+    .cv-card button {
+      background: #004aad;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .cv-card button:hover {
+      background: #003080;
+    }
+  </style>
+</head>
+<body>
+  <header>HireHub - Posted CVs</header>
+  
+  <div class="container">
+    <h2>Browse Qualified Professionals</h2>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by name or profession..." onkeyup="filterCVs()">
+    </div>
+    <div id="cvList"></div>
+  </div>
+
+  <script>
+    const storedCVs = JSON.parse(localStorage.getItem('postedCVs')) || [];
+
+    const cvList = document.getElementById('cvList');
+
+    function displayCVs(cvs) {
+      cvList.innerHTML = "";
+      if (cvs.length === 0) {
+        cvList.innerHTML = "<p style='text-align:center; color:#555;'>No CVs posted yet.</p>";
+        return;
+      }
+      cvs.forEach(cv => {
+        const card = document.createElement('div');
+        card.classList.add('cv-card');
+        card.innerHTML = `
+          <img src="${cv.photo || 'https://via.placeholder.com/80'}" alt="Profile Photo">
+          <div class="cv-info">
+            <h3>${cv.name}</h3>
+            <p><strong>Profession:</strong> ${cv.profession}</p>
+            <p><strong>Experience:</strong> ${cv.experience}</p>
+            <p><strong>Skills:</strong> ${cv.skills}</p>
+          </div>
+          <button onclick="window.open('${cv.cvFile}', '_blank')">View CV</button>
+        `;
+        cvList.appendChild(card);
+      });
+    }
+
+    function filterCVs() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = storedCVs.filter(cv => 
+        cv.name.toLowerCase().includes(query) ||
+        cv.profession.toLowerCase().includes(query)
+      );
+      displayCVs(filtered);
+    }
+
+    displayCVs(storedCVs);
+  </script>
+</body>
+</html>

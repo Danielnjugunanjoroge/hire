@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HireHub - Connecting Talent to Opportunity</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+    }
+
+    header {
+      background: #003366;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      position: relative;
+      margin-left: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #003366;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #003366, #007acc);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .banner h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .banner p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .banner a {
+      background: white;
+      color: #003366;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+    }
+
+    .banner a:hover {
+      background: #007acc;
+      color: white;
+    }
+
+   /* ===== HOW IT WORKS ===== */
+    .how-it-works {
+      padding: 60px 20px;
+      text-align: center;
+      background: white;
+    }
+
+    .how-it-works h2 {
+      color: #003366;
+      margin-bottom: 30px;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .step {
+      background: #f0f4f8;
+      border-radius: 10px;
+      padding: 25px;
+      width: 280px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .step:hover {
+      transform: translateY(-5px);
+    }
+
+    .step h3 {
+      color: #00509e;
+      margin-bottom: 10px;
+    }
+
+  
+
+    /* ===== MODAL ===== */
+
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HireHub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#">Services ▼</a>
+          <div class="dropdown-content">
+            <a href="upload.html">Upload CV</a>
+            <a href="browse.html">Browse Professionals</a>
+          </div>
+        </li>
+        <li><a href="payment.html">Payment</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <h2>Connecting Talent with Opportunity</h2>
+    <p>HireHub is your professional gateway to connect skilled individuals with top employers.</p>
+    <a href="upload.html">Get Started</a>
+  </section>
+<section class="how-it-works">
+    <h2>How HireHub Works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>For Professionals</h3>
+        <p>Create an account, upload your qualifications, and get discovered by top employers.</p>
+      </div>
+      <div class="step">
+        <h3>For Employers</h3>
+        <p>Browse verified professionals, view profiles, and connect instantly to hire the best talent.</p>
+      </div>
+      <div class="step">
+        <h3>Affordable & Secure</h3>
+        <p>HireHub ensures affordable posting rates and secure data handling for all users.</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>&copy; 2025 HireHub. All rights reserved. Designed by Bebby Boy.</p>
+  </footer>
+</body>
+</html>

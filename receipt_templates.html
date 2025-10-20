@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HireHub Receipt</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    .receipt-container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+    }
+    .header h1 {
+      margin: 0;
+      color: #007bff;
+      font-size: 28px;
+    }
+    .header p {
+      color: #555;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .details {
+      margin-top: 20px;
+    }
+    .details p {
+      line-height: 1.6;
+      font-size: 16px;
+      color: #333;
+    }
+    .highlight {
+      color: #007bff;
+      font-weight: bold;
+    }
+    .footer {
+      border-top: 1px solid #ccc;
+      margin-top: 25px;
+      padding-top: 15px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+    }
+    .footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .logo img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt-container">
+    <div class="logo">
+      <img src="https://i.imgur.com/DzRzUwB.png" alt="HireHub Logo">
+    </div>
+    <div class="header">
+      <h1>HireHub Payment Receipt</h1>
+      <p>Receipt No: <strong>{{ receipt_number }}</strong></p>
+    </div>
+
+    <div class="details">
+      <p>Dear <span class="highlight">{{ customer_name }}</span>,</p>
+      <p>Thank you for using <span class="highlight">HireHub</span>. Your payment has been successfully processed.</p>
+
+      <p><strong>Transaction Details:</strong></p>
+      <p>
+        💼 Professional Name: <span class="highlight">{{ professional_name }}</span><br>
+        🧑‍💼 Profession: <span class="highlight">{{ profession }}</span><br>
+        💳 Payment Method: <span class="highlight">{{ payment_method }}</span><br>
+        💰 Amount Paid: <span class="highlight">KSh {{ amount }}</span><br>
+        ⏰ Date & Time: <span class="highlight">{{ date_time }}</span>
+      </p>
+
+      <p>Your CV or professional profile is now visible to companies seeking your expertise.</p>
+    </div>
+
+    <div class="footer">
+      <p>This is an automated message from <strong>HireHub</strong>.<br>
+      For inquiries, contact <a href="mailto:hirehub.support@gmail.com">hirehub.support@gmail.com</a></p>
+      <p>© {{ date_time[:4] }} HireHub. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

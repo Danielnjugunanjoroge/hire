@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hire Professional - HireHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #003366;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+
+    .profile-box {
+      background: #e9f3ff;
+      border-left: 5px solid #007acc;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      background: #007acc;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+
+    #successMsg {
+      text-align: center;
+      background: #e0ffe0;
+      border: 1px solid #00b300;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 6px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HireHub</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Hire Professional</h2>
+    <div id="profileBox" class="profile-box"></div>
+
+    <form id="hireForm">
+      <label>Your Full Name:</label>
+      <input type="text" id="employerName" placeholder="Enter your full name" required>
+
+      <label>Company Name:</label>
+      <input type="text" id="company" placeholder="Enter your company name" required>
+
+      <label>Contact Email:</label>
+      <input type="email" id="email" placeholder="Enter valid email address" required>
+
+      <button type="submit">Send Hire Request</button>
+    </form>
+
+    <div id="successMsg">Hire request sent successfully! We’ll contact you shortly.</div>
+  </div>
+
+  <script>
+    // Display selected professional details
+    const selectedPro = JSON.parse(localStorage.getItem('selectedProfessional'));
+    const profileBox = document.getElementById('profileBox');
+
+    if (selectedPro) {
+      profileBox.innerHTML = `
+        <h3>${selectedPro.name}</h3>
+        <p><b>Profession:</b> ${selectedPro.profession}</p>
+        <p><b>Skills:</b> ${selectedPro.skills}</p>
+      `;
+    } else {
+      profileBox.innerHTML = `<p>No professional selected. Go back to <a href="browse.html">Browse Page</a>.</p>`;
+    }
+
+    // Handle form submission
+    document.getElementById('hireForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('employerName').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!name || !company || !email) {
+        alert('Please fill in all fields!');
+        return;
+      }
+
+      document.getElementById('hireForm').reset();
+      document.getElementById('successMsg').style.display = 'block';
+
+      // Optional: Save hire record or send email later
+    });
+  </script>
+</body>
+</html>

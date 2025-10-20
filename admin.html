@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireHub | Admin Dashboard</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif;}
+    body {background-color: #f4f7fa; color: #333;}
+    header {
+      background-color: #003366;
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {font-size: 1.8rem; font-weight: bold;}
+    nav ul {list-style: none; display: flex; gap: 20px;}
+    nav ul li a {color: #fff; text-decoration: none; transition: 0.3s;}
+    nav ul li a:hover {color: #00bfff;}
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {color: #003366; text-align: center; margin-bottom: 20px;}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #003366;
+      color: white;
+    }
+    tr:nth-child(even) {background: #f9f9f9;}
+
+    button {
+      background: #00bfff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {background: #0099cc;}
+    .delete-btn {background: #cc0000;}
+    .delete-btn:hover {background: #990000;}
+
+    .login-box {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .login-box input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-box button {
+      background: #003366;
+      padding: 10px 20px;
+    }
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">HireHub</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="upload.html">Post CV</a></li>
+        <li><a href="professionals.html">Browse</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Admin Login -->
+  <div class="login-box" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPassword" placeholder="Enter admin password">
+    <button onclick="checkAdmin()">Login</button>
+    <p style="color:#999; margin-top:10px;">Hint: password is <b>admin123</b></p>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="container" id="dashboard" style="display:none;">
+    <h2>Uploaded Professionals</h2>
+    <table id="cvTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Profession</th>
+          <th>Payment Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>© 2025 HireHub. Admin Panel</p>
+  </footer>
+
+  <script>
+    const correctPassword = "admin123";
+
+    function checkAdmin() {
+      const entered = document.getElementById('adminPassword').value;
+      if (entered === correctPassword) {
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadCVs();
+      } else {
+        alert("Incorrect password. Try again!");
+      }
+    }
+
+    function loadCVs() {
+      const tableBody = document.querySelector('#cvTable tbody');
+      tableBody.innerHTML = "";
+
+      // Load from localStorage (or mock data)
+      const professionals = JSON.parse(localStorage.getItem('professionals')) || [
+        { name: "John Mwangi", email: "johnmwangi@gmail.com", profession: "Software Engineer", paid: true },
+        { name: "Mary Wanjiku", email: "marywanjiku@gmail.com", profession: "Accountant", paid: true },
+        { name: "Faith Njeri", email: "faithnjeri@gmail.com", profession: "Graphic Designer", paid: false }
+      ];
+
+      professionals.forEach((pro, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${pro.name}</td>
+          <td>${pro.email}</td>
+          <td>${pro.profession}</td>
+          <td>${pro.paid ? "Paid ✅" : "Pending ❌"}</td>
+          <td>
+            <button onclick="verifyPro(${index})">Verify</button>
+            <button class='delete-btn' onclick="deletePro(${index})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function deletePro(index) {
+      const professionals = JSON.parse(localStorage.getItem('professionals')) || [];
+      professionals.splice(index, 1);
+      localStorage.setItem('professionals', JSON.stringify(professionals));
+      loadCVs();
+      alert("Record deleted successfully!");
+    }
+
+    function verifyPro(index) {
+      const professionals = JSON.parse(localStorage.getItem('professionals')) || [];
+      if (professionals[index]) {
+        professionals[index].paid = true;
+        localStorage.setItem('professionals', JSON.stringify(professionals));
+        loadCVs();
+        alert("Professional marked as verified!");
+      }
+    }
+  </script>
+</body>
+</html>
